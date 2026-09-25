@@ -7,15 +7,18 @@ const router = Router();
 
 // POST /items
 // BUG-01: No Content-Type guard. When the header is absent or is not
-// application/json, express.json() skips parsing and req.body is {}.
-// The handler then calls createItem with an empty/unparsed body, producing
-// a corrupt item (name: undefined, price: undefined, etc.).
-// The fix is to wire validateContentType middleware before this router.
+// application/json, express.json() does not parse the body. The handler
+// reads req.body.name without checking Content-Type first, which throws:
+//   TypeError: Cannot read properties of undefined (reading 'name')
+// because body-parser leaves req.body undefined for unrecognised types.
+// The fix is to wire validateContentType before this router.
 router.post('/', (req, res, next) => {
   try {
-    // BUG-01: no Content-Type check — req.body may be {} when header is absent,
-    // silently creating a corrupt item instead of returning 400.
-    const item = store.createItem(req.body);
+    // BUG-01: accessing req.body.name without a Content-Type guard.
+    // When Content-Type is not application/json, req.body is undefined
+    // and this line throws, propagating as HTTP 500.
+    const { name } = req.body;
+    const item = store.createItem({ name, ...req.body });
     res.status(201).json(item);
   } catch (err) {
     next(err);
