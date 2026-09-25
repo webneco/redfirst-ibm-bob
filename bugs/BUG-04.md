@@ -1,7 +1,7 @@
 # BUG-04 — PATCH /items/:id overwrites unspecified fields with undefined
 
 **Severity:** P2
-**Status:** open
+**Status:** fixed
 **Assigned to:** (unassigned)
 
 ## Reproduction Steps
@@ -53,16 +53,30 @@ Only the fields included in the PATCH body should change.
 
 ## Root Cause Hypothesis
 
-(to be filled after failing test is written)
+`updateItem` in `sample-app/src/store/items.js` assembled the replacement
+record as `{ id, ...patch }`.  Every stored field absent from `patch` was
+silently discarded.
 
 ## Test
 
-(to be filled after failing test is written)
+`sample-app/test/repro/BUG-04.test.js` — confirmed red on `main` before fix;
+see `reports/BUG-04/REPRO.md`.
 
 ## Failing Test Output
 
-(to be filled after failing test is written)
+```
+Expected: 9.99
+Received: undefined
+    at Object.toBe (test/repro/BUG-04.test.js:30:33)
+```
 
 ## Fix Summary
 
-(to be filled after fix is merged)
+One-line change in `sample-app/src/store/items.js → updateItem`:
+
+```diff
+- const updated = { id, ...patch };
++ const updated = { ...items[index], ...patch };
+```
+
+Full suite: 10/10 tests pass.  See `reports/BUG-04/PROOF.md`.

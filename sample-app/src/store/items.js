@@ -43,7 +43,7 @@ function createItem(data) {
 function updateItem(id, patch) {
   const index = items.findIndex((item) => item.id === id);
   if (index === -1) return null;
-  const updated = { id, ...patch };  // BUG-04: should be { ...items[index], ...patch }
+  const updated = { ...items[index], ...patch };
   items[index] = updated;
   saveItems();
   return updated;
