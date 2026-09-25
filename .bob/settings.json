@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^execute_command$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .bob/hooks/scan-creds.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(write_file|apply_diff|search_and_replace|insert_content)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .bob/hooks/run-repro-tests.sh",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

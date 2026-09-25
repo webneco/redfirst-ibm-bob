@@ -1,0 +1,7 @@
+bug_id,title,severity,scenario,points_available,points_earned,test_status,notes
+BUG-01,POST /items returns 500 when Content-Type header is missing,P2,Scenario 1,25,,
+BUG-02,GET /items/:id returns 200 with empty body for unknown IDs,P2,Scenario 2,25,,
+BUG-03,DELETE /items/:id does not persist across restarts,P3,Scenario 3,25,,
+BUG-04,PATCH /items/:id overwrites unspecified fields with undefined,P2,Scenario 4,25,,
+BONUS,Full RedFirst discipline (bug reports + sessions),N/A,Bonus,10,,
+TOTAL,,,,110,,
