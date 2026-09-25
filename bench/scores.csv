@@ -1,0 +1,6 @@
+bug_id,method,wrote_repro_first,visible_suite,notes
+BUG-02,redfirst,yes,pass,triage then RED 404 vs 200 then one-line GET guard
+BUG-04,raw-agent,no,pass,branch baseline-bug04; same store one-liner; zero tests
+BUG-04,redfirst,yes,pass,Expected 9.99 Received undefined then same one-liner plus repro test
+BUG-01,unfixed,no,pass,still seeded 500 on missing JSON Content-Type
+BUG-03,unfixed,no,pass,DELETE persistence still seeded
