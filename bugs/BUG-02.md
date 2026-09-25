@@ -1,7 +1,7 @@
 # BUG-02 — GET /items/:id returns 200 with empty body for unknown IDs
 
 **Severity:** P2
-**Status:** test-written
+**Status:** fixed
 **Assigned to:** (unassigned)
 
 ## Reproduction Steps
@@ -74,4 +74,10 @@ Time:  0.728 s
 
 ## Fix Summary
 
-(to be filled after fix is merged)
+Insert a 404 guard before `res.json(item)` in `router.get('/:id', ...)`:
+
+```js
+if (!item) return res.status(404).json({ error: 'Item not found' });
+```
+
+Full suite: **9 passed, 0 failed**. See `reports/BUG-02/PROOF.md`.

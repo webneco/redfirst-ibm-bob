@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
 // When id is unknown, item is undefined and Express sends 200 with no body.
 router.get('/:id', (req, res) => {
   const item = store.getItemById(req.params.id);
-  // BUG-02: should be: if (!item) return res.status(404).json({ error: 'Item not found' });
+  if (!item) return res.status(404).json({ error: 'Item not found' });
   res.json(item);
 });
 
